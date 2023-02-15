@@ -28,19 +28,17 @@ content = { "rows": [{ "values": [{ "string": 'hello' }, { "string": 'world' }] 
 config = Example::Config.decode_json(content)
 
 thread_count = 500
-iterations_per_thread = 1000
+iterations_per_thread = 100_000
 
 threads = []
-(1..thread_count).each do |i|
+(1..thread_count).each do |_i|
   threads << Thread.new do
-    (1..iterations_per_thread).each do |iter|
+    (1..iterations_per_thread).each do |_iter|
       config.rows.each do |row|
         row.values.each do |conditional_value|
           conditional_value
         end
       end
-
-      puts "assert #{i} #{iter}"
     end
   end
 end
