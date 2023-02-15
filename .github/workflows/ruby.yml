@@ -1,0 +1,81 @@
+name: Ruby
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  ubuntu_test_current_version:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.6', '2.7', '3.0', '3.2']
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+    - name: bundle
+      run: BUNDLE_GEMFILE=Gemfile bundle install
+    - name: test
+      run: BUNDLE_GEMFILE=Gemfile bundle exec ruby thread_example.rb
+
+  ubuntu_test_pre_release_version:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.6', '2.7', '3.0', '3.2']
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: bundle
+      run: BUNDLE_GEMFILE=GemfilePre bundle install
+    - name: test
+      run: BUNDLE_GEMFILE=GemfilePre bundle exec ruby thread_example.rb
+
+  macos_test_current_version:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.6', '2.7', '3.0', '3.2']
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+    - name: bundle
+      run: BUNDLE_GEMFILE=Gemfile bundle install
+    - name: test
+      run: BUNDLE_GEMFILE=Gemfile bundle exec ruby thread_example.rb
+
+  macos_test_pre_release_version:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.6', '2.7', '3.0', '3.2']
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: bundle
+      run: BUNDLE_GEMFILE=GemfilePre bundle install
+    - name: test
+      run: BUNDLE_GEMFILE=GemfilePre bundle exec ruby thread_example.rb

@@ -28,7 +28,7 @@ content = { "rows": [{ "values": [{ "string": 'hello' }, { "string": 'world' }] 
 config = Example::Config.decode_json(content)
 
 thread_count = 500
-iterations_per_thread = 1000
+iterations_per_thread = 10_000
 
 threads = []
 (1..thread_count).each do |i|
