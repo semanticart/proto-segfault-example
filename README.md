@@ -1,24 +1,31 @@
 # Protobuf Ruby Segfault example
 
-For some versions of ruby, the current official release of the `google-protobuf` gem (3.21.12) will segfault when iterating over proto objects in threads.
+For versions of ruby on OSX the current official release of the `google-protobuf` gem (3.21.12) will segfault when iterating over proto objects in threads.
 
-I haven't tested every version of ruby, but it at least impacts these versions
+I haven't tested every version of ruby, but it at least impacts these versions (compiled with ruby-build and/or homebrew)
 
 - ruby 2.7.7p221 (2022-11-24 revision 168ec2b1e5) [arm64-darwin22]
 - ruby 3.1.0p0 (2021-12-25 revision fb4df44d16) [arm64-darwin22]
 - ruby 3.2.0 (2022-12-25 revision a528908271) [arm64-darwin22]
+- ruby 3.2.1 (2023-02-08 revision 31819e82c8) [x86_64-darwin19]
+- ruby 3.2.1 (2023-02-08 revision 31819e82c8) [arm64-darwin22]
 - ruby 3.1.3p185 (2022-11-24 revision 1a6b16756e) [arm64-darwin22]
 
-You can see this behavior with
+You can test this behavior with
 
 ```
 BUNDLE_GEMFILE=Gemfile bundle install
 BUNDLE_GEMFILE=Gemfile bundle exec ruby thread_example.rb
 ```
 
-Note that you might need to run the last command a few times to see the segfault but it happens nearly every time in my experience.
+Note that you might need to run the last command a few times to see the segfault but it happens nearly every time on in my experience.
 
-This seems to be fixed in the pre-release gem (4.0.0.rc.1). You can confirm the fix with
+Interestingly, system rubies on OSX seem fine (at least for the following versions)
+
+- ruby 2.6.3p62 (2019-04-16 revision 67580) [universal.x86_64-darwin19]
+- ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.arm64e-darwin22]
+
+Also of note, this seems to be fixed in the pre-release gem (4.0.0.rc.1). You can confirm the fix with
 
 ```
 BUNDLE_GEMFILE=GemfilePre bundle install
